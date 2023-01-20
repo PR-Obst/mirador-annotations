@@ -6,6 +6,7 @@ import { getWindowViewType } from 'mirador/dist/es/src/state/selectors';
 import CanvasListItem from '../CanvasListItem';
 import AnnotationActionsContext from '../AnnotationActionsContext';
 import SingleCanvasDialog from '../SingleCanvasDialog';
+import translations from '../locales';
 
 /** */
 class CanvasAnnotationsWrapper extends Component {
@@ -85,6 +86,7 @@ CanvasAnnotationsWrapper.propTypes = {
   ]).isRequired,
   targetProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   windowViewType: PropTypes.string.isRequired,
+  //t: PropTypes.func.isRequired,
 };
 
 CanvasAnnotationsWrapper.defaultProps = {
@@ -128,6 +130,9 @@ export default {
   component: CanvasAnnotationsWrapper,
   mapDispatchToProps,
   mapStateToProps,
+  config: {
+    translations,
+  },
   mode: 'wrap',
   target: 'CanvasAnnotations',
 };

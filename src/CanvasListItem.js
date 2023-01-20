@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
@@ -84,7 +85,7 @@ class CanvasListItem extends Component {
 
   /** */
   render() {
-    const { children } = this.props;
+    const { children, t, } = this.props;
     const { isHovering } = this.state;
     const { windowViewType, toggleSingleCanvasDialogOpen } = this.context;
     return (
@@ -101,7 +102,7 @@ class CanvasListItem extends Component {
             }}
           >
             <ToggleButtonGroup
-              aria-label="annotation tools"
+              aria-label={t('canvasAnnotationTools')}
               size="small"
               style={{
                 position: 'absolute',
@@ -109,13 +110,13 @@ class CanvasListItem extends Component {
               }}
             >
               <ToggleButton
-                aria-label="Edit"
+                aria-label={t('canvasAnnotationEdit')}
                 onClick={windowViewType === 'single' ? this.handleEdit : toggleSingleCanvasDialogOpen}
                 value="edit"
               >
                 <EditIcon />
               </ToggleButton>
-              <ToggleButton aria-label="Delete" onClick={this.handleDelete} value="delete">
+              <ToggleButton aria-label={t('canvasAnnotationDelete')} onClick={this.handleDelete} value="delete">
                 <DeleteIcon />
               </ToggleButton>
             </ToggleButtonGroup>
@@ -137,8 +138,9 @@ CanvasListItem.propTypes = {
     PropTypes.func,
     PropTypes.node,
   ]).isRequired,
+  t: PropTypes.func.isRequired
 };
 
 CanvasListItem.contextType = AnnotationActionsContext;
 
-export default CanvasListItem;
+export default withTranslation()(CanvasListItem);

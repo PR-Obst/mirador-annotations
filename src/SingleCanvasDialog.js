@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,6 +34,7 @@ class SingleCanvasDialog extends Component {
     const {
       handleClose,
       open,
+      t,
     } = this.props;
     return (
       <Dialog
@@ -45,21 +47,20 @@ class SingleCanvasDialog extends Component {
       >
         <DialogTitle id="single-canvas-dialog-title" disableTypography>
           <Typography variant="h2">
-            Switch view type to single view?
+            {t('dialogSingleCanvasTitle')}
           </Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText variant="body1" color="inherit">
-            Annotations can only be edited in single canvas view type.
-            Switch view type to single view now?
+            {t('dialogSingleCanvasContent')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
-            Cancel
+            {t('dialogSingleCanvasButtonCancel')}
           </Button>
           <Button color="primary" onClick={this.confirm} variant="contained">
-            Switch to single view
+            {t('dialogSingleCanvasButtonSubmit')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -71,10 +72,11 @@ SingleCanvasDialog.propTypes = {
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
   switchToSingleCanvasView: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 SingleCanvasDialog.defaultProps = {
   open: false,
 };
 
-export default SingleCanvasDialog;
+export default withTranslation()(SingleCanvasDialog);

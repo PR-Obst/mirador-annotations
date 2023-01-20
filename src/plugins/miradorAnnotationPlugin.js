@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import * as actions from 'mirador/dist/es/src/state/actions';
 import { getWindowViewType } from 'mirador/dist/es/src/state/selectors';
@@ -9,6 +10,7 @@ import { getVisibleCanvases } from 'mirador/dist/es/src/state/selectors/canvases
 import SingleCanvasDialog from '../SingleCanvasDialog';
 import AnnotationExportDialog from '../AnnotationExportDialog';
 import LocalStorageAdapter from '../LocalStorageAdapter';
+import translations from '../locales';
 
 /** */
 class MiradorAnnotation extends Component {
@@ -61,6 +63,7 @@ class MiradorAnnotation extends Component {
       TargetComponent,
       targetProps,
       windowViewType,
+      t,
     } = this.props;
     const { annotationExportDialogOpen, singleCanvasDialogOpen } = this.state;
     const storageAdapter = config.annotation && config.annotation.adapter('poke');
@@ -72,7 +75,7 @@ class MiradorAnnotation extends Component {
           {...targetProps} // eslint-disable-line react/jsx-props-no-spreading
         />
         <MiradorMenuButton
-          aria-label="Create new annotation"
+          aria-label={t('createNewAnnotation')}
           onClick={windowViewType === 'single' ? this.openCreateAnnotationCompanionWindow : this.toggleSingleCanvasDialogOpen}
           size="small"
         >
@@ -87,7 +90,7 @@ class MiradorAnnotation extends Component {
         )}
         { offerExportDialog && (
           <MiradorMenuButton
-            aria-label="Export local annotations for visible items"
+            aria-label={t('exportAnnotation')}
             onClick={this.toggleCanvasExportDialog}
             size="small"
           >
@@ -125,6 +128,7 @@ MiradorAnnotation.propTypes = {
   ]).isRequired,
   targetProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   windowViewType: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 /** */
@@ -145,9 +149,12 @@ const mapStateToProps = (state, { targetProps: { windowId } }) => ({
 });
 
 export default {
-  component: MiradorAnnotation,
+  component: withTranslation()(MiradorAnnotation),
   mapDispatchToProps,
   mapStateToProps,
+  config: {
+    translations,
+  },
   mode: 'wrap',
   target: 'AnnotationSettings',
 };

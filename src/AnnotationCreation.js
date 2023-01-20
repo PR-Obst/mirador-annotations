@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -220,7 +222,7 @@ class AnnotationCreation extends Component {
   /** */
   render() {
     const {
-      annotation, classes, closeCompanionWindow, id, windowId,
+      annotation, classes, closeCompanionWindow, id, windowId, t,
     } = this.props;
 
     const {
@@ -230,7 +232,7 @@ class AnnotationCreation extends Component {
     } = this.state;
     return (
       <CompanionWindow
-        title={annotation ? 'Edit annotation' : 'New annotation'}
+        title={annotation ? t('annotationCreationEdit') : t('annotationCreationNew')}
         windowId={windowId}
         id={id}
       >
@@ -248,7 +250,7 @@ class AnnotationCreation extends Component {
           <Grid container>
             <Grid item xs={12}>
               <Typography variant="overline">
-                Target
+                {t('annotationCreationTarget')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -258,13 +260,13 @@ class AnnotationCreation extends Component {
                   value={activeTool}
                   exclusive
                   onChange={this.changeTool}
-                  aria-label="tool selection"
+                  aria-label={t('annotationCreationToolSelection')}
                   size="small"
                 >
-                  <ToggleButton value="cursor" aria-label="select cursor">
+                  <ToggleButton value="cursor" aria-label={t('annotationCreationSelectCursor')}>
                     <CursorIcon />
                   </ToggleButton>
-                  <ToggleButton value="edit" aria-label="select cursor">
+                  <ToggleButton value="edit" aria-label={t('annotationCreationSelectCursor')}>
                     <FormatShapesIcon />
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -274,19 +276,19 @@ class AnnotationCreation extends Component {
                   value={activeTool}
                   exclusive
                   onChange={this.changeTool}
-                  aria-label="tool selection"
+                  aria-label={t('annotationCreationToolSelection')}
                   size="small"
                 >
-                  <ToggleButton value="rectangle" aria-label="add a rectangle">
+                  <ToggleButton value="rectangle" aria-label={t('annotationCreationToolRectangle')}>
                     <RectangleIcon />
                   </ToggleButton>
-                  <ToggleButton value="ellipse" aria-label="add a circle">
+                  <ToggleButton value="ellipse" aria-label={t('annotationCreationToolEllipse')}>
                     <CircleIcon />
                   </ToggleButton>
-                  <ToggleButton value="polygon" aria-label="add a polygon">
+                  <ToggleButton value="polygon" aria-label={t('annotationCreationToolPolygon')}>
                     <PolygonIcon />
                   </ToggleButton>
-                  <ToggleButton value="freehand" aria-label="free hand polygon">
+                  <ToggleButton value="freehand" aria-label={t('annotationCreationToolFreehand')}>
                     <GestureIcon />
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -296,17 +298,17 @@ class AnnotationCreation extends Component {
           <Grid container>
             <Grid item xs={12}>
               <Typography variant="overline">
-                Style
+                {t('annotationCreationStyle')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <ToggleButtonGroup
-                aria-label="style selection"
+                aria-label={t('annotationCreationStyleSelection')}
                 size="small"
               >
                 <ToggleButton
                   value="strokeColor"
-                  aria-label="select color"
+                  aria-label={t('annotationCreationSelectColor')}
                   onClick={this.openChooseColor}
                 >
                   <StrokeColorIcon style={{ fill: strokeColor }} />
@@ -314,7 +316,7 @@ class AnnotationCreation extends Component {
                 </ToggleButton>
                 <ToggleButton
                   value="strokeColor"
-                  aria-label="select line weight"
+                  aria-label={t('annotationCreationSelectLineWeight')}
                   onClick={this.openChooseLineWeight}
                 >
                   <LineWeightIcon />
@@ -322,7 +324,7 @@ class AnnotationCreation extends Component {
                 </ToggleButton>
                 <ToggleButton
                   value="fillColor"
-                  aria-label="select color"
+                  aria-label={t('annotationCreationSelectColor')}
                   onClick={this.openChooseColor}
                 >
                   <FormatColorFillIcon style={{ fill: fillColor }} />
@@ -355,7 +357,7 @@ class AnnotationCreation extends Component {
           <Grid container>
             <Grid item xs={12}>
               <Typography variant="overline">
-                Content
+                {t('annotationCreationContent')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -367,10 +369,10 @@ class AnnotationCreation extends Component {
             </Grid>
           </Grid>
           <Button onClick={closeCompanionWindow}>
-            Cancel
+            {t('annotationCreationCancel')}
           </Button>
           <Button variant="contained" color="primary" type="submit">
-            Save
+            {t('annotationCreationSave')}
           </Button>
         </form>
         <Popover
@@ -459,6 +461,7 @@ AnnotationCreation.propTypes = {
   id: PropTypes.string.isRequired,
   receiveAnnotation: PropTypes.func.isRequired,
   windowId: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 AnnotationCreation.defaultProps = {
@@ -467,4 +470,9 @@ AnnotationCreation.defaultProps = {
   closeCompanionWindow: () => {},
 };
 
-export default withStyles(styles)(AnnotationCreation);
+const enhance = compose(
+  withTranslation(),
+  withStyles(styles),
+);
+
+export default enhance(AnnotationCreation);

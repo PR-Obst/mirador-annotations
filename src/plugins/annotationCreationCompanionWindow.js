@@ -2,6 +2,7 @@ import * as actions from 'mirador/dist/es/src/state/actions';
 import { getCompanionWindow } from 'mirador/dist/es/src/state/selectors/companionWindows';
 import { getVisibleCanvases } from 'mirador/dist/es/src/state/selectors/canvases';
 import AnnotationCreation from '../AnnotationCreation';
+import translations from '../locales';
 
 /** */
 const mapDispatchToProps = (dispatch, { id, windowId }) => ({
@@ -40,4 +41,7 @@ export default {
   component: AnnotationCreation,
   mapDispatchToProps,
   mapStateToProps,
+  config: {
+    translations,
+  }
 };
